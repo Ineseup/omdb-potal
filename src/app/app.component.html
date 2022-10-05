@@ -1,0 +1,42 @@
+<div class="background">
+<router-outlet></router-outlet>
+
+<div class="centeredDiv" >
+<h1>OMDB search</h1>
+<h3>Input a movie title</h3>
+  <div class="ng-autocomplete">
+    <ng-autocomplete #movieSearchInput
+      [data] = "movieNames"
+      [searchKeyword] = "keyword"
+      placeHolder = "Enter the Movie Name"
+      [itemTemplate]="itemTemplate"
+      [notFoundTemplate]="notFoundTemplate"
+      notFoundText="No movie found"
+      (inputChanged)='onChangeSearch($event)'
+      (selected)="selectEvent($event)"
+      [debounceTime]="300"
+      historyIdentifier = "movies"
+      [historyListMaxNumber] = "5" >
+    </ng-autocomplete>
+  
+    <ng-template #itemTemplate let-item>
+      <a [innerHTML]="item.Title"></a>
+    </ng-template>
+  
+    <ng-template #notFoundTemplate let-notFound>
+      <div [innerHTML]="notFound"></div>
+    </ng-template><br><br><br><br>
+  </div>
+  
+  <div class="container" style="text-align:center" [hidden]="hideMovieDetails">
+    <div class="card" style="margin:5px;">
+      <img class="card-img-top" src="{{moviePoster}}">
+        <div class="card-body">
+          <h1 class="card-title">{{movieName}}</h1>
+          <div id="DetailsDIV">
+              <p *ngFor="let property of movieDetails | keyvalue">
+                 <b>{{property.key}}: </b>{{property.value}}
+          </div>
+        </div>
+    </div>
+</div>
